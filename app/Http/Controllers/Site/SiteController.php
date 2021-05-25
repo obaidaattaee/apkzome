@@ -37,20 +37,21 @@ class SiteController extends Controller
         return view('site.download')->with('version', $version);
     }
 
-    public function search(Request $request, $type, $id, $title)
+    public function search(Request $request, $type = null, $id = null, $title = null)
     {
         $apps = App::query();
-        if ($request->has('ci')) {
-            $apps = $apps->where('category_id', $request->input('ci'));
+        if ($type == 'vendor') {
+            $apps = $apps->where('owner_id', $id);
         }
-        if ($request->has('vi')) {
-            $apps = $apps->where('owner_id', $request->input('vi'));
-        }
-        if ($request->has('ti')) {
-            $apps = $apps->with(['tags'])->orWhereHas('tags', function ($tag) use ($request) {
-                return $tag->whereIn('tag_id', $request->input('ti'));
+        if ($type == 'tag') {
+            $apps = $apps->has('tags')->whereHas('tags' , function ($query) use ($id){
+                 $query->where('tag_id' , $id);
             });
         }
+        if ($request->has('search')) {
+            $apps = $apps->where('title', 'like', "%{$request->input('search')}%");
+        }
+
         if ($request->has('sort')) {
             if (similar_text($request->input('sort'), __('search.download')) > 3) {
                 $apps = $apps->orderBy('download_counter', 'desc');
@@ -61,7 +62,11 @@ class SiteController extends Controller
             if (similar_text($request->input('sort'), __('search.arical')) > 3) {
                 $apps = $apps->orderBy('created_at', 'desc');
             }
+        }else{
+            $apps = $apps->orderBy('rate' , 'desc');
         }
+//        dd($apps->get());
+
         $apps = $apps->simplePaginate(52)->appends([
             'ci' => $request->input('ci'),
             'vi' => $request->input('vi'),

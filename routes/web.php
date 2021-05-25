@@ -34,7 +34,7 @@ use SebastianBergmann\LinesOfCode\Counter;
 Route::prefix(LaravelLocalization::setLocale())->group(function () {
 
     Route::get('/', [SiteController::class, 'index']);
-    Route::get('search-{type}-{id}-{title}', [SiteController::class, 'search'])->name('search');
+    Route::get('search-{type?}-{id?}-{title?}', [SiteController::class, 'search'])->name('search');
     Route::get('download/{version}/{title?}', [SiteController::class, 'download'])->name('download');
     Route::get('details/{app}/{title?}', [SiteController::class, 'details'])->name('apps.details');
     Route::get('category-{category}-{category_name}' , [SiteController::class , 'categorySearch'])->name('categorySearch');

@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.5",
         "laravelium/sitemap": "6.*",
         "mcamara/laravel-localization": "^1.6",
+        "pragmarx/tracker": "^4.0",
         "santigarcor/laratrust": "^6.3",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-translatable": "4.6",

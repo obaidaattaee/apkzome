@@ -62,8 +62,10 @@
             <div class="r-box">
                 <div class="form-group search-field-container">
                     <div id="myDropdown" class="dropdown-content">
-                        <input type="text" autocomplete="off" x-on:click.away="showSearchItems = false" class="form-control search-field" x-on:input.debounce="search($event)"
-                            placeholder="Search" name="search">
+                        <form action="{{ route('search' , ['id' => 'search' , 'type' => 'search' , 'title' => 'search']) }}" id="searchForm" method="get">
+                            <input type="text" autocomplete="off" x-on:click.away="showSearchItems = false" class="form-control search-field" x-on:input.debounce="search($event)"
+                                   placeholder="Search" name="search">
+                        </form>
                             <div x-show="showSearchItems">
                         <template x-for='item in searchItems' :key="item.id">
                             <a x-bind:href="'{{url('details' , '' , '')}}' + '/' + item.id + '/' + item.title_translation">
