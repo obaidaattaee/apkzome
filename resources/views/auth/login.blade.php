@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title' , __('auth.login'))
 @section('content')
     <center>
         <div class="login-box mt-5">

@@ -4,13 +4,14 @@
 @section('page-title' , __('common.add_new') . ' ' . __('common.app'))
 
 @section('header-css')
-    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    <script src="{{ asset('bower_components/summernote/ckeditor.js') }}"></script>
 
     <link rel="stylesheet" href="{{ asset('bower_components/admin-lte/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet"
           href="{{ asset('bower_components/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 @endsection
 @section('content')
+    @include('layouts.admin_components.message')
     {{--    @include('layouts.admin_components.message')--}}
     <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
@@ -187,7 +188,8 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="version[title]">{{ __('common.title') }}</label>
-                                <input type="text" required name="version[title]" id="version[title]" class="form-control"
+                                <input type="text" required name="version[title]" id="version[title]"
+                                       class="form-control"
                                        placeholder="{{ __('common.title') }}"
                                        value="{{ old('extension') }}">
                                 @error('title')
@@ -322,6 +324,50 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <h4>{{ ucwords(__('common.images')) }}</h4>
+                    <div class="card-body">
+                        @csrf
+
+                        <div class="row images-repeater">
+                            <div class="col-md-12">
+                                <div data-repeater-list="images">
+                                    <div data-repeater-item class="outer">
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <h5 class="font-weight-bold image-title">image #1</h5>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <input type="file" class="form-control"
+                                                       name="imageFile"
+                                                       placeholder="{{__('common.title')}}"/>
+                                                @error('logo')
+                                                <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <input type="url" class="form-control" id="imageUrl"
+                                                       name="imageUrl"
+                                                       placeholder="{{__('common.imageUrl')}}"/>
+                                                @error('imageUrl')
+                                                <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-12 mt-4">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input checkbox1" name="on_server" id="on_server1">
+                                                    <label class="custom-control-label checkbox-label1" for="on_server1">{{ __('common.on_server') }}</label>
+                                                    <input data-repeater-delete type="button" value="Delete" class="inner btn btn-danger float-lg-right"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <input data-repeater-create type="button" value="{{ ucwords(__('common.add_new') . ' ' . __('common.image')) }}" class="outer btn btn-success"/>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-outline-success">{{ __('common.save') }}</button>
@@ -336,6 +382,7 @@
 
 @section('footer-js')
     <script src="{{ asset('bower_components/admin-lte/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('bower_components/jquery.repeater/jquery.repeater.js') }}"></script>
     <script !src="">
         $('#parent_category').select2({
             placeholder: "{{ __('common.select') . ' ' . __('common.category') }}",
@@ -493,21 +540,17 @@
             }
         })
     </script>
-    <script src="{{ asset('bower_components/jquery.repeater/jquery-1.11.1.js') }}"></script>
-
-    <script src="{{ asset('bower_components/jquery.repeater/jquery.repeater.js') }}"></script>
     <script>
         'use strict';
+        let repeater_count = 2;
+        $('.images-repeater').repeater({
+            initEmpty: false,
 
-        $('.parts').repeater({
-            defaultValues: {
-                'textarea-input': 'foo',
-                'text-input': 'bar',
-                'select-input': 'B',
-                'checkbox-input': ['A', 'B'],
-                'radio-input': 'B'
-            },
             show: function () {
+                $(this).find('.checkbox1').attr('id' , 'on_server' + repeater_count)
+                $(this).find('.checkbox-label1').attr('for' , 'on_server' + repeater_count)
+                $(this).find('.image-title').text('image #' + repeater_count)
+                repeater_count = repeater_count + 1
                 $(this).slideDown();
             },
             hide: function (deleteElement) {
@@ -523,89 +566,13 @@
     </script>
     <script>
         ClassicEditor
-            .create( document.querySelector( '#description' ) )
-            .then( editor => {
-                console.log( editor );
-            } )
-            .catch( error => {
-                console.error( error );
-            } );
+            .create(document.querySelector('#description'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     </script>
-{{--    <script>DecoupledDocumentEditor--}}
-{{--            .create( document.querySelector( '#description' ), {--}}
-
-{{--                toolbar: {--}}
-{{--                    items: [--}}
-{{--                        'heading',--}}
-{{--                        '|',--}}
-{{--                        'fontSize',--}}
-{{--                        'fontFamily',--}}
-{{--                        '|',--}}
-{{--                        'fontColor',--}}
-{{--                        'fontBackgroundColor',--}}
-{{--                        '|',--}}
-{{--                        'bold',--}}
-{{--                        'italic',--}}
-{{--                        'underline',--}}
-{{--                        'strikethrough',--}}
-{{--                        '|',--}}
-{{--                        'alignment',--}}
-{{--                        '|',--}}
-{{--                        'numberedList',--}}
-{{--                        'bulletedList',--}}
-{{--                        '|',--}}
-{{--                        'outdent',--}}
-{{--                        'indent',--}}
-{{--                        '|',--}}
-{{--                        'todoList',--}}
-{{--                        'link',--}}
-{{--                        'blockQuote',--}}
-{{--                        'imageUpload',--}}
-{{--                        'insertTable',--}}
-{{--                        'mediaEmbed',--}}
-{{--                        '|',--}}
-{{--                        'undo',--}}
-{{--                        'redo'--}}
-{{--                    ]--}}
-{{--                },--}}
-{{--                language: 'en',--}}
-{{--                image: {--}}
-{{--                    toolbar: [--}}
-{{--                        'imageTextAlternative',--}}
-{{--                        'imageStyle:full',--}}
-{{--                        'imageStyle:side'--}}
-{{--                    ]--}}
-{{--                },--}}
-{{--                table: {--}}
-{{--                    contentToolbar: [--}}
-{{--                        'tableColumn',--}}
-{{--                        'tableRow',--}}
-{{--                        'mergeTableCells',--}}
-{{--                        'tableCellProperties',--}}
-{{--                        'tableProperties'--}}
-{{--                    ]--}}
-{{--                },--}}
-{{--                licenseKey: '',--}}
-
-
-{{--            } )--}}
-{{--            .then( editor => {--}}
-{{--                window.editor = editor;--}}
-
-
-
-
-
-{{--                // Set a custom container for the toolbar.--}}
-{{--                document.querySelector( '.document-editor__toolbar' ).appendChild( editor.ui.view.toolbar.element );--}}
-{{--                document.querySelector( '.ck-toolbar' ).classList.add( 'ck-reset_all' );--}}
-{{--            } )--}}
-{{--            .catch( error => {--}}
-{{--                console.error( 'Oops, something went wrong!' );--}}
-{{--                console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );--}}
-{{--                console.warn( 'Build id: y76seynn0jvu-u9490jx48w7r' );--}}
-{{--                console.error( error );--}}
-{{--            } );--}}
-{{--    </script>--}}
 
 @endsection

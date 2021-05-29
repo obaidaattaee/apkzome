@@ -18,8 +18,14 @@ use Illuminate\View\View;
  */
 class AppImageController extends Controller
 {
+    /**
+     *  define default image width
+     */
     const IMAGE_WIDTH = null;
-    const IMAGE_HIGHT = 355 ;
+    /**
+     *  define default image height
+     */
+    const IMAGE_HIGHT = 355;
 
     /**
      * @param App $app
