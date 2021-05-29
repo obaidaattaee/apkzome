@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
+use PragmaRX\Tracker\Tracker;
 
 /**
  * Class AdminBaseController
@@ -17,6 +18,8 @@ class AdminBaseController extends Controller
      */
     public function index(): View
     {
+        $visitor = \Tracker::currentSession();
+        $sessions = \Tracker::sessions(60 * 24);
         return view('layouts.admin');
     }
 }

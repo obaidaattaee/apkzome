@@ -166,7 +166,6 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
-
         PragmaRX\Tracker\Vendor\Laravel\ServiceProvider::class,
         /*
          * Application Service Providers...
@@ -229,8 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'Tracker' => PragmaRX\Tracker\Vendor\Laravel\Facade,
-
+        'Tracker' => 'PragmaRX\Tracker\Vendor\Laravel\Facade',
     ],
 
 ];

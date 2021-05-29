@@ -5,7 +5,7 @@ return [
     /*
      * Enable it?
      */
-    'enabled' => false,
+    'enabled' => true,
 
     /*
      * Enable cache?
@@ -15,7 +15,7 @@ return [
     /*
      * Deffer booting for middleware use
      */
-    'use_middleware' => false,
+    'use_middleware' => true,
 
     /*
      * Robots should be tracked?
@@ -56,7 +56,7 @@ return [
      *     '172.17.0.0/255.255.0.0'
      */
     'do_not_track_ips' => [
-        '127.0.0.0/24', /// range 127.0.0.1 - 127.0.0.255
+//        '127.0.0.0/24', /// range 127.0.0.1 - 127.0.0.255
     ],
 
     /*
@@ -76,7 +76,7 @@ return [
      *    - Error log
      *    - URL queries (including values)
      */
-    'log_enabled' => false,
+    'log_enabled' => true,
 
     /*
      * Log artisan commands?
@@ -253,7 +253,7 @@ return [
      *      protected $connection = 'mysql';
      * ...
      */
-    'user_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\User',
+    'user_model' => 'App\User',
 
     /*
      * You can use your own model for every single table Tracker has.
